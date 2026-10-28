@@ -1,19 +1,17 @@
+
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "sv.edu.aprendeapp"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "sv.edu.aprendeapp"
-        minSdk = 24
-        targetSdk = 36
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -29,9 +27,14 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -41,6 +44,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.picasso)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
