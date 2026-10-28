@@ -33,6 +33,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(
+                org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+            )
+        }
+    }
+
     buildFeatures {
         viewBinding = true
     }
@@ -44,6 +52,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
