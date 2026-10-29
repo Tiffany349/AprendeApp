@@ -14,7 +14,7 @@ import sv.edu.aprendeapp.model.Recurso
 import sv.edu.aprendeapp.model.RecursoRequest
 import sv.edu.aprendeapp.model.api.RetrofitClient
 import sv.edu.aprendeapp.view.AdminRecursoAdapter
-
+import android.widget.ArrayAdapter
 class DocenteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDocenteBinding
@@ -29,6 +29,20 @@ class DocenteActivity : AppCompatActivity() {
 
         binding = ActivityDocenteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnVolver.setOnClickListener {
+            finish()
+        }
+
+        val tipos = resources.getStringArray(R.array.resource_type_options)
+
+        val adaptadorTipos = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            tipos
+        )
+
+        binding.etTipo.setAdapter(adaptadorTipos)
 
         recursoAdapter = AdminRecursoAdapter(
             emptyList(),

@@ -41,6 +41,12 @@
         <item>Artículo</item>
     </string-array>
 
+    <string-array name="resource_type_options">
+        <item>Libro</item>
+        <item>Video</item>
+        <item>Artículo</item>
+    </string-array>
+
     <string-array name="resource_sort_options">
         <item>Orden original</item>
         <item>Título A-Z</item>
