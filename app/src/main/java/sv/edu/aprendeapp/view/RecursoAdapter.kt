@@ -1,3 +1,4 @@
+
 package sv.edu.aprendeapp.view
 
 import android.content.ActivityNotFoundException
@@ -17,7 +18,7 @@ import sv.edu.aprendeapp.R
 import sv.edu.aprendeapp.model.Recurso
 
 class RecursoAdapter(
-    private val recursos: List<Recurso>
+    private var recursos: List<Recurso>
 ) : RecyclerView.Adapter<RecursoAdapter.RecursoViewHolder>() {
 
     class RecursoViewHolder(itemView: View) :
@@ -106,4 +107,9 @@ class RecursoAdapter(
     }
 
     override fun getItemCount(): Int = recursos.size
+
+    fun actualizarRecursos(nuevaLista: List<Recurso>) {
+        recursos = nuevaLista
+        notifyDataSetChanged()
+    }
 }

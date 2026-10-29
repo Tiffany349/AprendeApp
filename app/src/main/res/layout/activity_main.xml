@@ -16,13 +16,47 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchRecursos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/search_resources_hint" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/filter_type_label"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spFiltroTipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/resource_type_filters" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/sort_resources_label"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spOrden"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/resource_sort_options" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:visibility="gone" />
 
     <TextView

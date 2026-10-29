@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AprendeApp</string>
-
     <string name="resources_title">Recursos de aprendizaje</string>
     <string name="loading_resources">Cargando recursos educativos...</string>
     <string name="resources_empty">No hay recursos educativos disponibles.</string>
     <string name="resources_load_error">No se pudieron cargar los recursos. Revisa tu conexión y la dirección de la API.</string>
     <string name="resources_server_error">No fue posible obtener los recursos del servidor.</string>
-
     <string name="resource_type_format">Tipo: %1$s</string>
     <string name="resource_image_description">Imagen del recurso educativo</string>
     <string name="open_resource">Abrir recurso</string>
     <string name="resource_link_missing">Este recurso no tiene un enlace disponible.</string>
     <string name="resource_link_error">No se encontró una aplicación para abrir el enlace.</string>
+    <string name="search_resources_hint">Buscar por ID, título o tipo...</string>
+    <string name="filter_type_label">Filtrar por tipo</string>
+    <string name="sort_resources_label">Ordenar recursos</string>
+    <string name="no_search_results">No se encontraron recursos que coincidan.</string>
+    <string name="all_resource_types">Todos los tipos</string>
+
+    <string-array name="resource_type_filters">
+        <item>Todos los tipos</item>
+        <item>Libro</item>
+        <item>Video</item>
+        <item>Artículo</item>
+    </string-array>
+
+    <string-array name="resource_sort_options">
+        <item>Orden original</item>
+        <item>Título A-Z</item>
+        <item>Título Z-A</item>
+        <item>Tipo</item>
+    </string-array>
 </resources>
