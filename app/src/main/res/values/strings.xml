@@ -11,11 +11,28 @@
     <string name="open_resource">Abrir recurso</string>
     <string name="resource_link_missing">Este recurso no tiene un enlace disponible.</string>
     <string name="resource_link_error">No se encontró una aplicación para abrir el enlace.</string>
+
     <string name="search_resources_hint">Buscar por ID, título o tipo...</string>
     <string name="filter_type_label">Filtrar por tipo</string>
     <string name="sort_resources_label">Ordenar recursos</string>
     <string name="no_search_results">No se encontraron recursos que coincidan.</string>
     <string name="all_resource_types">Todos los tipos</string>
+
+    <string name="open_teacher_management">Administrar recursos (Docente)</string>
+    <string name="manage_resources_title">Administrar recursos</string>
+    <string name="resource_title_hint">Título del recurso</string>
+    <string name="resource_description_hint">Descripción</string>
+    <string name="resource_type_hint">Tipo (Libro, Video, Artículo...)</string>
+    <string name="resource_link_hint">Enlace del recurso</string>
+    <string name="resource_image_url_hint">URL de la imagen (opcional)</string>
+    <string name="create_resource">Crear recurso</string>
+    <string name="update_resource">Actualizar recurso</string>
+    <string name="cancel_edit">Cancelar edición</string>
+    <string name="existing_resources_title">Recursos existentes</string>
+    <string name="edit_resource">Editar</string>
+    <string name="delete_resource">Eliminar</string>
+    <string name="cancel_action">Cancelar</string>
+    <string name="delete_action">Eliminar</string>
 
     <string-array name="resource_type_filters">
         <item>Todos los tipos</item>

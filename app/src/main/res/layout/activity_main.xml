@@ -34,7 +34,9 @@
     <Spinner
         android:id="@+id/spFiltroTipo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:layout_marginTop="8dp"
         android:entries="@array/resource_type_filters" />
 
     <TextView
@@ -47,8 +49,17 @@
     <Spinner
         android:id="@+id/spOrden"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:layout_marginTop="8dp"
         android:entries="@array/resource_sort_options" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAdministrarRecursos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/open_teacher_management" />
 
     <ProgressBar
         android:id="@+id/progressBar"

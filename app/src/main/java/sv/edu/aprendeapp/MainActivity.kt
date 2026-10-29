@@ -1,8 +1,10 @@
+
 package sv.edu.aprendeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,13 +21,12 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private var todosLosRecursos: List<Recurso> = emptyList()
     private lateinit var recursoAdapter: RecursoAdapter
 
-    private var textoBusqueda: String = ""
-    private var tipoSeleccionado: String = ""
-    private var ordenSeleccionado: String = ""
+    private var todosLosRecursos: List<Recurso> = emptyList()
+    private var textoBusqueda = ""
+    private var tipoSeleccionado = ""
+    private var ordenSeleccionado = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,22 +35,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         recursoAdapter = RecursoAdapter(emptyList())
-
-        binding.rvRecursos.layoutManager =
-            LinearLayoutManager(this)
-
+        binding.rvRecursos.layoutManager = LinearLayoutManager(this)
         binding.rvRecursos.adapter = recursoAdapter
+
+        binding.btnAdministrarRecursos.setOnClickListener {
+            startActivity(Intent(this, DocenteActivity::class.java))
+        }
 
         configurarBuscador()
         configurarFiltros()
-
         cargarRecursos()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (::binding.isInitialized && ::recursoAdapter.isInitialized) {
+            cargarRecursos()
+        }
     }
 
     private fun configurarBuscador() {
         binding.searchRecursos.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
-
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     textoBusqueda = query.orEmpty()
                     aplicarFiltros()
@@ -67,59 +75,47 @@ class MainActivity : AppCompatActivity() {
 
     private fun configurarFiltros() {
         binding.spFiltroTipo.onItemSelectedListener =
-            object : android.widget.AdapterView.OnItemSelectedListener {
-
+            object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    parent: android.widget.AdapterView<*>?,
+                    parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
                     tipoSeleccionado =
-                        parent?.getItemAtPosition(position)?.toString()
-                            .orEmpty()
-
+                        parent?.getItemAtPosition(position)?.toString().orEmpty()
                     aplicarFiltros()
                 }
 
-                override fun onNothingSelected(
-                    parent: android.widget.AdapterView<*>?
-                ) {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
                     tipoSeleccionado = ""
                 }
             }
 
         binding.spOrden.onItemSelectedListener =
-            object : android.widget.AdapterView.OnItemSelectedListener {
-
+            object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    parent: android.widget.AdapterView<*>?,
+                    parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
                     ordenSeleccionado =
-                        parent?.getItemAtPosition(position)?.toString()
-                            .orEmpty()
-
+                        parent?.getItemAtPosition(position)?.toString().orEmpty()
                     aplicarFiltros()
                 }
 
-                override fun onNothingSelected(
-                    parent: android.widget.AdapterView<*>?
-                ) {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
                     ordenSeleccionado = ""
                 }
             }
     }
 
     private fun cargarRecursos() {
-        mostrarEstado(getString(R.string.loading_resources))
         binding.progressBar.visibility = View.VISIBLE
 
         RetrofitClient.api.obtenerRecursos()
             .enqueue(object : Callback<List<Recurso>> {
-
                 override fun onResponse(
                     call: Call<List<Recurso>>,
                     response: Response<List<Recurso>>
@@ -130,16 +126,13 @@ class MainActivity : AppCompatActivity() {
                         todosLosRecursos = response.body().orEmpty()
 
                         if (todosLosRecursos.isEmpty()) {
-                            mostrarEstado(
-                                getString(R.string.resources_empty)
-                            )
+                            mostrarEstado(getString(R.string.resources_empty))
                         } else {
                             aplicarFiltros()
                         }
                     } else {
                         mostrarEstado(
-                            "${getString(R.string.resources_server_error)} " +
-                                    "HTTP ${response.code()}"
+                            "${getString(R.string.resources_server_error)} HTTP ${response.code()}"
                         )
                     }
                 }
@@ -149,9 +142,7 @@ class MainActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
                     binding.progressBar.visibility = View.GONE
-                    mostrarEstado(
-                        getString(R.string.resources_load_error)
-                    )
+                    mostrarEstado(getString(R.string.resources_load_error))
                 }
             })
     }
@@ -161,42 +152,27 @@ class MainActivity : AppCompatActivity() {
 
         val busqueda = normalizar(textoBusqueda.trim())
         val tipoFiltro = normalizar(tipoSeleccionado)
+        val todosTipos = normalizar(getString(R.string.all_resource_types))
 
         var resultado = todosLosRecursos.filter { recurso ->
-
             val coincideBusqueda =
                 busqueda.isBlank() ||
                         normalizar(recurso.id).contains(busqueda) ||
                         normalizar(recurso.titulo).contains(busqueda) ||
                         normalizar(recurso.tipo).contains(busqueda)
 
-            val esTodosLosTipos =
-                tipoSeleccionado.isBlank() ||
-                        tipoFiltro == normalizar(
-                    getString(R.string.all_resource_types)
-                )
-
             val coincideTipo =
-                esTodosLosTipos ||
-                        normalizar(recurso.tipo) == tipoFiltro ||
-                        (
-                                tipoFiltro == normalizar("Artículo") &&
-                                        normalizar(recurso.tipo) == normalizar("Articulo")
-                                )
+                tipoFiltro.isBlank() ||
+                        tipoFiltro == todosTipos ||
+                        normalizar(recurso.tipo) == tipoFiltro
 
             coincideBusqueda && coincideTipo
         }
 
         resultado = when (ordenSeleccionado) {
-            "Título A-Z" ->
-                resultado.sortedBy { normalizar(it.titulo) }
-
-            "Título Z-A" ->
-                resultado.sortedByDescending { normalizar(it.titulo) }
-
-            "Tipo" ->
-                resultado.sortedBy { normalizar(it.tipo) }
-
+            "Título A-Z" -> resultado.sortedBy { normalizar(it.titulo) }
+            "Título Z-A" -> resultado.sortedByDescending { normalizar(it.titulo) }
+            "Tipo" -> resultado.sortedBy { normalizar(it.tipo) }
             else -> resultado
         }
 
