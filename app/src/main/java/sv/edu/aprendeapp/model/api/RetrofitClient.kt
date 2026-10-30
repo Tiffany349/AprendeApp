@@ -9,11 +9,18 @@ object RetrofitClient {
     private const val BASE_URL =
         "https://6ae182c1be3bc8fead9899dc.mockapi.io/apiv1/"
 
-    val api: RecursoApi by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(RecursoApi::class.java)
+    }
+
+    val api: RecursoApi by lazy {
+        retrofit.create(RecursoApi::class.java)
+    }
+
+    val usuarioApi: UsuarioApi by lazy {
+        retrofit.create(UsuarioApi::class.java)
     }
 }
