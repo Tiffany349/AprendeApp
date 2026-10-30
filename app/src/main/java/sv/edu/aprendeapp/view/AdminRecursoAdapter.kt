@@ -1,3 +1,4 @@
+
 package sv.edu.aprendeapp.view
 
 import android.view.LayoutInflater
@@ -38,6 +39,7 @@ class AdminRecursoAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RecursoViewHolder {
+
         val vista = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_admin_recurso, parent, false)
 
