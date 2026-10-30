@@ -1,7 +1,10 @@
+
 package sv.edu.aprendeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +17,12 @@ import sv.edu.aprendeapp.model.Recurso
 import sv.edu.aprendeapp.model.RecursoRequest
 import sv.edu.aprendeapp.model.api.RetrofitClient
 import sv.edu.aprendeapp.view.AdminRecursoAdapter
-import android.widget.ArrayAdapter
+
 class DocenteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDocenteBinding
     private lateinit var recursoAdapter: AdminRecursoAdapter
+    private lateinit var sesionManager: SesionManager
 
     private var recursos: List<Recurso> = emptyList()
     private var recursoEditando: Recurso? = null
@@ -27,6 +31,32 @@ class DocenteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Comprobar la sesión y el rol antes de mostrar la pantalla.
+        sesionManager = SesionManager(this)
+
+        if (!sesionManager.haySesion()) {
+            val intent = Intent(this, AccesoActivity::class.java)
+
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        if (!sesionManager.esDocente()) {
+            Toast.makeText(
+                this,
+                "No tienes permisos para administrar recursos.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            finish()
+            return
+        }
+
+        // Mostrar la pantalla de administración.
         binding = ActivityDocenteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -34,7 +64,10 @@ class DocenteActivity : AppCompatActivity() {
             finish()
         }
 
-        val tipos = resources.getStringArray(R.array.resource_type_options)
+        // Configurar opciones del tipo de recurso.
+        val tipos = resources.getStringArray(
+            R.array.resource_type_options
+        )
 
         val adaptadorTipos = ArrayAdapter(
             this,
@@ -44,10 +77,15 @@ class DocenteActivity : AppCompatActivity() {
 
         binding.etTipo.setAdapter(adaptadorTipos)
 
+        // Configurar adaptador de recursos.
         recursoAdapter = AdminRecursoAdapter(
             emptyList(),
-            alEditar = { recurso -> prepararEdicion(recurso) },
-            alEliminar = { recurso -> confirmarEliminacion(recurso) }
+            alEditar = { recurso ->
+                prepararEdicion(recurso)
+            },
+            alEliminar = { recurso ->
+                confirmarEliminacion(recurso)
+            }
         )
 
         binding.rvAdminRecursos.layoutManager =
@@ -55,10 +93,12 @@ class DocenteActivity : AppCompatActivity() {
 
         binding.rvAdminRecursos.adapter = recursoAdapter
 
+        // Botón para guardar o actualizar recursos.
         binding.btnGuardarRecurso.setOnClickListener {
             guardarRecurso()
         }
 
+        // Botón para cancelar la edición.
         binding.btnCancelarEdicion.setOnClickListener {
             limpiarFormulario()
         }
@@ -78,7 +118,9 @@ class DocenteActivity : AppCompatActivity() {
                         recursos = response.body().orEmpty()
                         recursoAdapter.actualizarLista(recursos)
                     } else {
-                        mensaje("No se pudieron cargar los recursos. HTTP ${response.code()}")
+                        mensaje(
+                            "No se pudieron cargar los recursos. HTTP ${response.code()}"
+                        )
                     }
                 }
 
@@ -86,7 +128,9 @@ class DocenteActivity : AppCompatActivity() {
                     call: Call<List<Recurso>>,
                     t: Throwable
                 ) {
-                    mensaje("Error de conexión al consultar los recursos.")
+                    mensaje(
+                        "Error de conexión al consultar los recursos."
+                    )
                 }
             })
     }
@@ -100,22 +144,33 @@ class DocenteActivity : AppCompatActivity() {
         val enlace = binding.etEnlace.text.toString().trim()
         val imagen = binding.etImagen.text.toString().trim()
 
-        if (titulo.isBlank() || descripcion.isBlank() || tipo.isBlank()) {
-            mensaje("Completa el título, la descripción y el tipo.")
+        if (titulo.isBlank() ||
+            descripcion.isBlank() ||
+            tipo.isBlank()
+        ) {
+            mensaje(
+                "Completa el título, la descripción y el tipo."
+            )
             return
         }
 
-        if (enlace.isNotBlank() && !enlace.startsWith("https://") &&
+        if (enlace.isNotBlank() &&
+            !enlace.startsWith("https://") &&
             !enlace.startsWith("http://")
         ) {
-            mensaje("El enlace debe comenzar con http:// o https://.")
+            mensaje(
+                "El enlace debe comenzar con http:// o https://."
+            )
             return
         }
 
-        if (imagen.isNotBlank() && !imagen.startsWith("https://") &&
+        if (imagen.isNotBlank() &&
+            !imagen.startsWith("https://") &&
             !imagen.startsWith("http://")
         ) {
-            mensaje("La URL de la imagen debe comenzar con http:// o https://.")
+            mensaje(
+                "La URL de la imagen debe comenzar con http:// o https://."
+            )
             return
         }
 
@@ -128,6 +183,7 @@ class DocenteActivity : AppCompatActivity() {
         )
 
         val recursoActual = recursoEditando
+
         solicitudEnCurso = true
         binding.btnGuardarRecurso.isEnabled = false
 
@@ -160,8 +216,11 @@ class DocenteActivity : AppCompatActivity() {
 
                     limpiarFormulario()
                     cargarRecursos()
+
                 } else {
-                    mensaje("No se pudo guardar el recurso. HTTP ${response.code()}")
+                    mensaje(
+                        "No se pudo guardar el recurso. HTTP ${response.code()}"
+                    )
                 }
             }
 
@@ -171,7 +230,10 @@ class DocenteActivity : AppCompatActivity() {
             ) {
                 solicitudEnCurso = false
                 binding.btnGuardarRecurso.isEnabled = true
-                mensaje("Error de conexión al guardar el recurso.")
+
+                mensaje(
+                    "Error de conexión al guardar el recurso."
+                )
             }
         })
     }
@@ -185,9 +247,11 @@ class DocenteActivity : AppCompatActivity() {
         binding.etEnlace.setText(recurso.enlace)
         binding.etImagen.setText(recurso.imagen)
 
-        binding.btnGuardarRecurso.setText(R.string.update_resource)
-        binding.btnCancelarEdicion.visibility = View.VISIBLE
+        binding.btnGuardarRecurso.setText(
+            R.string.update_resource
+        )
 
+        binding.btnCancelarEdicion.visibility = View.VISIBLE
         binding.etTitulo.requestFocus()
     }
 
@@ -219,15 +283,20 @@ class DocenteActivity : AppCompatActivity() {
                     solicitudEnCurso = false
 
                     if (response.isSuccessful) {
-                        mensaje("Recurso eliminado correctamente.")
+                        mensaje(
+                            "Recurso eliminado correctamente."
+                        )
 
                         if (recursoEditando?.id == recurso.id) {
                             limpiarFormulario()
                         }
 
                         cargarRecursos()
+
                     } else {
-                        mensaje("No se pudo eliminar el recurso. HTTP ${response.code()}")
+                        mensaje(
+                            "No se pudo eliminar el recurso. HTTP ${response.code()}"
+                        )
                     }
                 }
 
@@ -236,7 +305,10 @@ class DocenteActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
                     solicitudEnCurso = false
-                    mensaje("Error de conexión al eliminar el recurso.")
+
+                    mensaje(
+                        "Error de conexión al eliminar el recurso."
+                    )
                 }
             })
     }
@@ -250,11 +322,18 @@ class DocenteActivity : AppCompatActivity() {
         binding.etEnlace.text?.clear()
         binding.etImagen.text?.clear()
 
-        binding.btnGuardarRecurso.setText(R.string.create_resource)
+        binding.btnGuardarRecurso.setText(
+            R.string.create_resource
+        )
+
         binding.btnCancelarEdicion.visibility = View.GONE
     }
 
     private fun mensaje(texto: String) {
-        Toast.makeText(this, texto, Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this,
+            texto,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

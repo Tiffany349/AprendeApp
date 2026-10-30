@@ -1,9 +1,9 @@
-
 package sv.edu.aprendeapp
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -38,24 +38,36 @@ class MainActivity : AppCompatActivity() {
 
         sesionManager = SesionManager(this)
 
-        // Verificar que exista una sesión activa
+        // Comprobar que exista una sesión activa.
         if (!sesionManager.haySesion()) {
             irAAcceso()
             return
         }
 
-        // Configurar RecyclerView
-        recursoAdapter = RecursoAdapter(emptyList())
+        // Mostrar administración únicamente a docentes.
+        actualizarAccesoAdministracion()
 
+        // Configurar RecyclerView.
+        recursoAdapter = RecursoAdapter(emptyList())
         binding.rvRecursos.layoutManager = LinearLayoutManager(this)
         binding.rvRecursos.adapter = recursoAdapter
 
-        // Abrir administración de recursos
+        // Abrir administración solamente si el rol es docente.
         binding.btnAdministrarRecursos.setOnClickListener {
-            startActivity(Intent(this, DocenteActivity::class.java))
+            if (sesionManager.esDocente()) {
+                startActivity(
+                    Intent(this, DocenteActivity::class.java)
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "No tienes permisos para administrar recursos.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
-        // Configurar botón para cerrar sesión
+        // Configurar cierre de sesión.
         binding.btnCerrarSesion.setOnClickListener {
             confirmarCerrarSesion()
         }
@@ -69,8 +81,18 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         if (::binding.isInitialized && ::recursoAdapter.isInitialized) {
+            actualizarAccesoAdministracion()
             cargarRecursos()
         }
+    }
+
+    private fun actualizarAccesoAdministracion() {
+        binding.btnAdministrarRecursos.visibility =
+            if (sesionManager.esDocente()) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
     }
 
     private fun confirmarCerrarSesion() {
@@ -80,10 +102,7 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton(R.string.logout_cancel, null)
             .setPositiveButton(R.string.logout) { _, _ ->
 
-                // Eliminar la sesión guardada
                 sesionManager.cerrarSesion()
-
-                // Regresar al inicio de sesión
                 irAAcceso()
             }
             .show()
