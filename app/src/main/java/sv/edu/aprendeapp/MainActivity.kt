@@ -1,9 +1,9 @@
+
 package sv.edu.aprendeapp
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,11 +24,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recursoAdapter: RecursoAdapter
     private lateinit var sesionManager: SesionManager
+    private lateinit var preferenciasRecursos: RecursoPreferencias
 
     private var todosLosRecursos: List<Recurso> = emptyList()
     private var textoBusqueda = ""
     private var tipoSeleccionado = ""
     private var ordenSeleccionado = ""
+    private var soloFavoritos = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,38 +40,60 @@ class MainActivity : AppCompatActivity() {
 
         sesionManager = SesionManager(this)
 
-        // Comprobar que exista una sesión activa.
         if (!sesionManager.haySesion()) {
             irAAcceso()
             return
         }
 
-        // Mostrar administración únicamente a docentes.
+        // Crear almacenamiento de preferencias para la cuenta actual.
+        preferenciasRecursos = RecursoPreferencias(
+            this,
+            sesionManager.obtenerCorreo()
+        )
+
+        // Mostrar administración solamente a docentes.
         actualizarAccesoAdministracion()
 
-        // Configurar RecyclerView.
-        recursoAdapter = RecursoAdapter(emptyList())
-        binding.rvRecursos.layoutManager = LinearLayoutManager(this)
+        // Configurar la lista de recursos.
+        recursoAdapter = RecursoAdapter(
+            emptyList(),
+            preferenciasRecursos
+        ) {
+            aplicarFiltros()
+        }
+
+        binding.rvRecursos.layoutManager =
+            LinearLayoutManager(this)
+
         binding.rvRecursos.adapter = recursoAdapter
 
-        // Abrir administración solamente si el rol es docente.
+        // Abrir administración de recursos.
         binding.btnAdministrarRecursos.setOnClickListener {
             if (sesionManager.esDocente()) {
                 startActivity(
                     Intent(this, DocenteActivity::class.java)
                 )
             } else {
-                Toast.makeText(
-                    this,
-                    "No tienes permisos para administrar recursos.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                AlertDialog.Builder(this)
+                    .setMessage(
+                        "No tienes permisos para administrar recursos."
+                    )
+                    .setPositiveButton("Aceptar", null)
+                    .show()
             }
         }
 
-        // Configurar cierre de sesión.
+        // Cerrar sesión.
         binding.btnCerrarSesion.setOnClickListener {
             confirmarCerrarSesion()
+        }
+
+        // Mostrar favoritos o todos los recursos.
+        binding.btnMostrarFavoritos.setOnClickListener {
+            soloFavoritos = !soloFavoritos
+
+            actualizarTextoBotonFavoritos()
+            aplicarFiltros()
         }
 
         configurarBuscador()
@@ -80,7 +104,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (::binding.isInitialized && ::recursoAdapter.isInitialized) {
+        if (::binding.isInitialized &&
+            ::recursoAdapter.isInitialized
+        ) {
             actualizarAccesoAdministracion()
             cargarRecursos()
         }
@@ -95,13 +121,21 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    private fun actualizarTextoBotonFavoritos() {
+        binding.btnMostrarFavoritos.text =
+            if (soloFavoritos) {
+                getString(R.string.favorites_show_all)
+            } else {
+                getString(R.string.favorites_show)
+            }
+    }
+
     private fun confirmarCerrarSesion() {
         AlertDialog.Builder(this)
             .setTitle(R.string.logout_confirmation_title)
             .setMessage(R.string.logout_confirmation_message)
             .setNegativeButton(R.string.logout_cancel, null)
             .setPositiveButton(R.string.logout) { _, _ ->
-
                 sesionManager.cerrarSesion()
                 irAAcceso()
             }
@@ -149,7 +183,9 @@ class MainActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     tipoSeleccionado =
-                        parent?.getItemAtPosition(position)?.toString().orEmpty()
+                        parent?.getItemAtPosition(position)
+                            ?.toString()
+                            .orEmpty()
 
                     aplicarFiltros()
                 }
@@ -169,7 +205,9 @@ class MainActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     ordenSeleccionado =
-                        parent?.getItemAtPosition(position)?.toString().orEmpty()
+                        parent?.getItemAtPosition(position)
+                            ?.toString()
+                            .orEmpty()
 
                     aplicarFiltros()
                 }
@@ -193,7 +231,6 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
 
                     if (response.isSuccessful) {
-
                         todosLosRecursos = response.body().orEmpty()
 
                         if (todosLosRecursos.isEmpty()) {
@@ -203,7 +240,6 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             aplicarFiltros()
                         }
-
                     } else {
                         mostrarEstado(
                             "${getString(R.string.resources_server_error)} HTTP ${response.code()}"
@@ -249,15 +285,29 @@ class MainActivity : AppCompatActivity() {
             coincideBusqueda && coincideTipo
         }
 
+        // Aplicar el filtro de favoritos de la cuenta actual.
+        if (soloFavoritos) {
+            resultado = resultado.filter { recurso ->
+                preferenciasRecursos.esFavorito(recurso.id)
+            }
+        }
+
+        // Aplicar ordenamiento.
         resultado = when (ordenSeleccionado) {
             "Título A-Z" ->
-                resultado.sortedBy { normalizar(it.titulo) }
+                resultado.sortedBy {
+                    normalizar(it.titulo)
+                }
 
             "Título Z-A" ->
-                resultado.sortedByDescending { normalizar(it.titulo) }
+                resultado.sortedByDescending {
+                    normalizar(it.titulo)
+                }
 
             "Tipo" ->
-                resultado.sortedBy { normalizar(it.tipo) }
+                resultado.sortedBy {
+                    normalizar(it.tipo)
+                }
 
             else -> resultado
         }
@@ -266,7 +316,11 @@ class MainActivity : AppCompatActivity() {
 
         if (resultado.isEmpty()) {
             mostrarEstado(
-                getString(R.string.no_search_results)
+                if (soloFavoritos) {
+                    getString(R.string.favorites_empty)
+                } else {
+                    getString(R.string.no_search_results)
+                }
             )
         } else {
             binding.tvEstado.visibility = View.GONE

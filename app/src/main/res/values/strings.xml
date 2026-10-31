@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Nombre de la aplicación -->
     <string name="app_name">AprendeApp</string>
+
+    <!-- Pantalla principal -->
     <string name="resources_title">Recursos de aprendizaje</string>
     <string name="loading_resources">Cargando recursos educativos...</string>
     <string name="resources_empty">No hay recursos educativos disponibles.</string>
@@ -12,12 +16,14 @@
     <string name="resource_link_missing">Este recurso no tiene un enlace disponible.</string>
     <string name="resource_link_error">No se encontró una aplicación para abrir el enlace.</string>
 
+    <!-- Buscador, filtros y ordenamiento -->
     <string name="search_resources_hint">Buscar por ID, título o tipo...</string>
     <string name="filter_type_label">Filtrar por tipo</string>
     <string name="sort_resources_label">Ordenar recursos</string>
     <string name="no_search_results">No se encontraron recursos que coincidan.</string>
     <string name="all_resource_types">Todos los tipos</string>
 
+    <!-- Administración de recursos -->
     <string name="open_teacher_management">Administrar recursos (Docente)</string>
     <string name="manage_resources_title">Administrar recursos</string>
     <string name="resource_title_hint">Título del recurso</string>
@@ -34,6 +40,23 @@
     <string name="cancel_action">Cancelar</string>
     <string name="delete_action">Eliminar</string>
 
+    <!-- Mensajes de administración -->
+    <string name="admin_permission_denied">No tienes permisos para administrar recursos.</string>
+    <string name="admin_complete_required_fields">Completa el título, la descripción y el tipo.</string>
+    <string name="admin_invalid_link">El enlace debe comenzar con http:// o https://.</string>
+    <string name="admin_invalid_image_url">La URL de la imagen debe comenzar con http:// o https://.</string>
+    <string name="admin_resource_created">Recurso creado correctamente.</string>
+    <string name="admin_resource_updated">Recurso actualizado correctamente.</string>
+    <string name="admin_resource_deleted">Recurso eliminado correctamente.</string>
+    <string name="admin_save_error">No se pudo guardar el recurso. HTTP %1$d</string>
+    <string name="admin_delete_error">No se pudo eliminar el recurso. HTTP %1$d</string>
+    <string name="admin_load_error">No se pudieron cargar los recursos. HTTP %1$d</string>
+    <string name="admin_connection_load_error">Error de conexión al consultar los recursos.</string>
+    <string name="admin_connection_save_error">Error de conexión al guardar el recurso.</string>
+    <string name="admin_connection_delete_error">Error de conexión al eliminar el recurso.</string>
+    <string name="admin_delete_confirmation">¿Quieres eliminar el recurso "%1$s"? Esta acción no se puede deshacer.</string>
+
+    <!-- Tipos de recursos -->
     <string-array name="resource_type_filters">
         <item>Todos los tipos</item>
         <item>Libro</item>
@@ -47,10 +70,64 @@
         <item>Artículo</item>
     </string-array>
 
+    <!-- Opciones de ordenamiento -->
     <string-array name="resource_sort_options">
         <item>Orden original</item>
         <item>Título A-Z</item>
         <item>Título Z-A</item>
         <item>Tipo</item>
     </string-array>
+
+    <!-- Registro e inicio de sesión -->
+    <string name="auth_app_name">AprendeApp</string>
+    <string name="auth_login_title">Bienvenido</string>
+    <string name="auth_login_description">Ingresa a tu cuenta para acceder a tus recursos de aprendizaje.</string>
+    <string name="auth_register_title">Crear cuenta</string>
+    <string name="auth_register_description">Regístrate para comenzar a utilizar AprendeApp.</string>
+
+    <string name="auth_name_hint">Nombre completo</string>
+    <string name="auth_email_hint">Correo electrónico</string>
+    <string name="auth_password_hint">Contraseña</string>
+    <string name="auth_confirm_password_hint">Confirmar contraseña</string>
+
+    <string name="auth_password_rules">La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un carácter especial: ! @ # $ % ^ &amp; *</string>
+
+    <string name="auth_login_button">Iniciar sesión</string>
+    <string name="auth_register_button">Crear cuenta</string>
+    <string name="auth_go_register">¿No tienes cuenta? Regístrate</string>
+    <string name="auth_go_login">¿Ya tienes cuenta? Inicia sesión</string>
+
+    <string name="auth_enter_name">Escribe tu nombre completo.</string>
+    <string name="auth_enter_email">Escribe un correo electrónico válido.</string>
+    <string name="auth_enter_password">Escribe tu contraseña.</string>
+    <string name="auth_invalid_password">La contraseña no cumple con los requisitos indicados.</string>
+    <string name="auth_password_mismatch">Las contraseñas no coinciden.</string>
+    <string name="auth_email_exists">Este correo ya está registrado.</string>
+    <string name="auth_invalid_credentials">Correo o contraseña incorrectos.</string>
+    <string name="auth_register_success">Cuenta creada correctamente.</string>
+    <string name="auth_connection_error">No se pudo conectar con el servidor. Revisa tu conexión.</string>
+    <string name="auth_server_error">El servidor respondió con el error %1$d.</string>
+    <string name="auth_empty_response">El servidor no devolvió información del usuario.</string>
+
+    <!-- Cierre de sesión -->
+    <string name="logout">Cerrar sesión</string>
+    <string name="logout_confirmation_title">¿Cerrar sesión?</string>
+    <string name="logout_confirmation_message">¿Estás segura de que deseas salir de tu cuenta?</string>
+    <string name="logout_cancel">Cancelar</string>
+
+    <!-- Favoritos -->
+    <string name="favorites_show">Mis favoritos</string>
+    <string name="favorites_show_all">Ver todos los recursos</string>
+    <string name="favorite_add">Agregar a favoritos</string>
+    <string name="favorite_remove">Quitar de favoritos</string>
+    <string name="favorite_added_message">Recurso agregado a favoritos.</string>
+    <string name="favorite_removed_message">Recurso eliminado de favoritos.</string>
+    <string name="favorites_empty">Todavía no tienes recursos favoritos.</string>
+
+    <!-- Calificaciones -->
+    <string name="rating_label">Califica este recurso:</string>
+    <string name="rating_not_rated">Todavía no has calificado este recurso.</string>
+    <string name="rating_value">Tu calificación: %1$d de 5 estrellas</string>
+    <string name="rating_saved_message">Tu calificación se guardó correctamente.</string>
+
 </resources>
