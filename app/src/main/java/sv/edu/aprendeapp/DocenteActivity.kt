@@ -48,7 +48,7 @@ class DocenteActivity : AppCompatActivity() {
         if (!sesionManager.esDocente()) {
             Toast.makeText(
                 this,
-                "No tienes permisos para administrar recursos.",
+                getString(R.string.admin_permission_denied),
                 Toast.LENGTH_LONG
             ).show()
 
@@ -119,7 +119,10 @@ class DocenteActivity : AppCompatActivity() {
                         recursoAdapter.actualizarLista(recursos)
                     } else {
                         mensaje(
-                            "No se pudieron cargar los recursos. HTTP ${response.code()}"
+                            getString(
+                                R.string.admin_load_error,
+                                response.code()
+                            )
                         )
                     }
                 }
@@ -129,7 +132,7 @@ class DocenteActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
                     mensaje(
-                        "Error de conexión al consultar los recursos."
+                        getString(R.string.admin_connection_load_error)
                     )
                 }
             })
@@ -149,7 +152,7 @@ class DocenteActivity : AppCompatActivity() {
             tipo.isBlank()
         ) {
             mensaje(
-                "Completa el título, la descripción y el tipo."
+                getString(R.string.admin_complete_required_fields)
             )
             return
         }
@@ -159,7 +162,7 @@ class DocenteActivity : AppCompatActivity() {
             !enlace.startsWith("http://")
         ) {
             mensaje(
-                "El enlace debe comenzar con http:// o https://."
+                getString(R.string.admin_invalid_link)
             )
             return
         }
@@ -169,7 +172,7 @@ class DocenteActivity : AppCompatActivity() {
             !imagen.startsWith("http://")
         ) {
             mensaje(
-                "La URL de la imagen debe comenzar con http:// o https://."
+                getString(R.string.admin_invalid_image_url)
             )
             return
         }
@@ -208,9 +211,9 @@ class DocenteActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     mensaje(
                         if (recursoActual == null) {
-                            "Recurso creado correctamente."
+                            getString(R.string.admin_resource_created)
                         } else {
-                            "Recurso actualizado correctamente."
+                            getString(R.string.admin_resource_updated)
                         }
                     )
 
@@ -219,7 +222,10 @@ class DocenteActivity : AppCompatActivity() {
 
                 } else {
                     mensaje(
-                        "No se pudo guardar el recurso. HTTP ${response.code()}"
+                        getString(
+                            R.string.admin_save_error,
+                            response.code()
+                        )
                     )
                 }
             }
@@ -232,7 +238,7 @@ class DocenteActivity : AppCompatActivity() {
                 binding.btnGuardarRecurso.isEnabled = true
 
                 mensaje(
-                    "Error de conexión al guardar el recurso."
+                    getString(R.string.admin_connection_save_error)
                 )
             }
         })
@@ -259,7 +265,10 @@ class DocenteActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.delete_resource)
             .setMessage(
-                "¿Quieres eliminar el recurso \"${recurso.titulo}\"? Esta acción no se puede deshacer."
+                getString(
+                    R.string.admin_delete_confirmation,
+                    recurso.titulo
+                )
             )
             .setNegativeButton(R.string.cancel_action, null)
             .setPositiveButton(R.string.delete_action) { _, _ ->
@@ -284,7 +293,7 @@ class DocenteActivity : AppCompatActivity() {
 
                     if (response.isSuccessful) {
                         mensaje(
-                            "Recurso eliminado correctamente."
+                            getString(R.string.admin_resource_deleted)
                         )
 
                         if (recursoEditando?.id == recurso.id) {
@@ -295,7 +304,10 @@ class DocenteActivity : AppCompatActivity() {
 
                     } else {
                         mensaje(
-                            "No se pudo eliminar el recurso. HTTP ${response.code()}"
+                            getString(
+                                R.string.admin_delete_error,
+                                response.code()
+                            )
                         )
                     }
                 }
@@ -307,7 +319,7 @@ class DocenteActivity : AppCompatActivity() {
                     solicitudEnCurso = false
 
                     mensaje(
-                        "Error de conexión al eliminar el recurso."
+                        getString(R.string.admin_connection_delete_error)
                     )
                 }
             })

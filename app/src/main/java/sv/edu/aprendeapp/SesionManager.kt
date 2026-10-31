@@ -20,25 +20,23 @@ class SesionManager(context: Context) {
             .apply()
     }
 
-    fun haySesion(): Boolean {
-        return preferencias.getBoolean("sesion_activa", false)
-    }
+    fun haySesion(): Boolean =
+        preferencias.getBoolean("sesion_activa", false)
 
-    fun obtenerNombre(): String {
-        return preferencias.getString("nombre", "") ?: ""
-    }
+    fun obtenerId(): String =
+        preferencias.getString("id", "") ?: ""
 
-    fun obtenerCorreo(): String {
-        return preferencias.getString("correo", "") ?: ""
-    }
+    fun obtenerNombre(): String =
+        preferencias.getString("nombre", "") ?: ""
 
-    fun obtenerRol(): String {
-        return preferencias.getString("rol", "usuario") ?: "usuario"
-    }
+    fun obtenerCorreo(): String =
+        preferencias.getString("correo", "") ?: ""
 
-    fun esDocente(): Boolean {
-        return obtenerRol().equals("docente", ignoreCase = true)
-    }
+    fun obtenerRol(): String =
+        preferencias.getString("rol", "estudiante") ?: "estudiante"
+
+    fun esDocente(): Boolean =
+        obtenerRol().equals("docente", ignoreCase = true)
 
     fun cerrarSesion() {
         preferencias.edit().clear().apply()

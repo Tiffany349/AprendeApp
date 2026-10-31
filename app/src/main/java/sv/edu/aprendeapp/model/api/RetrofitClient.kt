@@ -1,4 +1,3 @@
-
 package sv.edu.aprendeapp.model.api
 
 import retrofit2.Retrofit

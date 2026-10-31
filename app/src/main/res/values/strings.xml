@@ -90,7 +90,7 @@
     <string name="auth_password_hint">Contraseña</string>
     <string name="auth_confirm_password_hint">Confirmar contraseña</string>
 
-    <string name="auth_password_rules">La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un carácter especial: ! @ # $ % ^ &amp; *</string>
+    <string name="auth_password_rules" formatted="false">La contraseña debe tener al menos 12 caracteres, una mayúscula, una minúscula, un número y un carácter especial: ! @ # $ % ^ &amp; *</string>
 
     <string name="auth_login_button">Iniciar sesión</string>
     <string name="auth_register_button">Crear cuenta</string>
@@ -105,6 +105,7 @@
     <string name="auth_email_exists">Este correo ya está registrado.</string>
     <string name="auth_invalid_credentials">Correo o contraseña incorrectos.</string>
     <string name="auth_register_success">Cuenta creada correctamente.</string>
+    <string name="auth_login_success">Sesión iniciada correctamente.</string>
     <string name="auth_connection_error">No se pudo conectar con el servidor. Revisa tu conexión.</string>
     <string name="auth_server_error">El servidor respondió con el error %1$d.</string>
     <string name="auth_empty_response">El servidor no devolvió información del usuario.</string>
@@ -130,4 +131,24 @@
     <string name="rating_value">Tu calificación: %1$d de 5 estrellas</string>
     <string name="rating_saved_message">Tu calificación se guardó correctamente.</string>
 
+    <!-- Acciones y administración -->
+    <string name="accept_action">Aceptar</string>
+    <string name="back_to_resources">Volver a recursos</string>
+    <string name="resource_data_title">Datos del recurso</string>
+
+    <string name="rating_no_votes">Todavía no hay calificaciones.</string>
+    <string name="rating_average">Promedio: %1$.1f de 5 (%2$d calificaciones)</string>
+    <string name="rating_loading_error">No se pudieron cargar las calificaciones.</string>
+    <string name="rating_connection_error">No se pudo conectar con el servidor de calificaciones.</string>
+    <string name="rating_save_error">No se pudo guardar la calificación. HTTP %1$d</string>
+    <string name="rating_user_error">No se pudo identificar al usuario para guardar la calificación.</string>
+
+
+
+
+
+
+
+
+    
 </resources>

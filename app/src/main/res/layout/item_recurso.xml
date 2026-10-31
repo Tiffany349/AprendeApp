@@ -47,7 +47,6 @@
             android:layout_marginTop="8dp"
             android:textSize="14sp" />
 
-        <!-- Botón para guardar en favoritos -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFavorito"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -61,7 +60,6 @@
             app:iconGravity="textStart"
             app:iconTint="?attr/colorPrimary" />
 
-        <!-- Calificación personal -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +87,17 @@
             android:text="@string/rating_not_rated"
             android:textSize="12sp" />
 
-        <!-- Abrir recurso -->
+        <!-- Promedio compartido -->
+        <TextView
+            android:id="@+id/tvPromedioCalificacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/rating_no_votes"
+            android:textStyle="bold"
+            android:textSize="13sp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnlace"
             android:layout_width="match_parent"

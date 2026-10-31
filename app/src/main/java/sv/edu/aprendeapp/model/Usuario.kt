@@ -5,5 +5,6 @@ data class Usuario(
     val nombre: String = "",
     val correo: String = "",
     val password: String = "",
-    val rol: String = "usuario"
+    val rol: String = "usuario",
+    val calificaciones: String = "[]"
 )

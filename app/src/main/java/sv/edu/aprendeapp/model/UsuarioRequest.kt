@@ -4,5 +4,6 @@ data class UsuarioRequest(
     val nombre: String,
     val correo: String,
     val password: String,
-    val rol: String
+    val rol: String,
+    val calificaciones: String = "[]"
 )

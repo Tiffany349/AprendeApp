@@ -136,7 +136,7 @@ class AccesoActivity : AppCompatActivity() {
                                 .guardarSesion(usuarioEncontrado)
 
                             mostrarMensaje(
-                                getString(R.string.auth_login_title)
+                                getString(R.string.auth_login_success)
                             )
 
                             abrirAplicacion()
@@ -322,7 +322,9 @@ class AccesoActivity : AppCompatActivity() {
         val tieneMayuscula = password.any { it.isUpperCase() }
         val tieneMinuscula = password.any { it.isLowerCase() }
         val tieneNumero = password.any { it.isDigit() }
+
         val caracteresEspeciales = "!@#$%^&*"
+
         val tieneEspecial = password.any {
             it in caracteresEspeciales
         }

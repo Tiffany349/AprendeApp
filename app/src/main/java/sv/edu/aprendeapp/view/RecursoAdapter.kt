@@ -1,4 +1,3 @@
-
 package sv.edu.aprendeapp.view
 
 import android.content.ActivityNotFoundException
@@ -17,13 +16,18 @@ import com.google.android.material.card.MaterialCardView
 import com.squareup.picasso.Picasso
 import sv.edu.aprendeapp.R
 import sv.edu.aprendeapp.RecursoPreferencias
+import sv.edu.aprendeapp.model.Calificacion
 import sv.edu.aprendeapp.model.Recurso
 
 class RecursoAdapter(
     private var recursos: List<Recurso>,
     private val preferencias: RecursoPreferencias,
-    private val alCambiarFavorito: () -> Unit
+    private val usuarioId: String,
+    private val alCambiarFavorito: () -> Unit,
+    private val alCalificar: (Recurso, Float) -> Unit
 ) : RecyclerView.Adapter<RecursoAdapter.RecursoViewHolder>() {
+
+    private var calificaciones: List<Calificacion> = emptyList()
 
     class RecursoViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -54,6 +58,9 @@ class RecursoAdapter(
 
         val textoCalificacion: TextView =
             itemView.findViewById(R.id.tvCalificacion)
+
+        val promedioCalificacion: TextView =
+            itemView.findViewById(R.id.tvPromedioCalificacion)
     }
 
     override fun onCreateViewHolder(
@@ -82,7 +89,6 @@ class RecursoAdapter(
             recurso.tipo
         )
 
-        // Cargar imagen del recurso.
         if (recurso.imagen.isNotBlank()) {
             Picasso.get()
                 .load(recurso.imagen)
@@ -98,7 +104,6 @@ class RecursoAdapter(
             )
         }
 
-        // Mostrar el estado actual del favorito.
         actualizarBotonFavorito(holder, recurso.id)
 
         holder.favorito.setOnClickListener {
@@ -118,51 +123,63 @@ class RecursoAdapter(
             alCambiarFavorito()
         }
 
-        // Recuperar la calificación guardada.
-        val calificacionGuardada =
-            preferencias.obtenerCalificacion(recurso.id)
+        // Obtener la calificación del usuario conectado.
+        val calificacionUsuario = calificaciones.firstOrNull {
+            it.recursoId == recurso.id &&
+                    it.usuarioId == usuarioId
+        }
 
         holder.calificacion.onRatingBarChangeListener = null
-        holder.calificacion.rating = calificacionGuardada
 
-        actualizarTextoCalificacion(
-            holder,
-            calificacionGuardada
-        )
+        holder.calificacion.rating =
+            calificacionUsuario?.calificacion ?: 0f
 
-        // Guardar una nueva calificación.
+        holder.textoCalificacion.text =
+            if (calificacionUsuario == null) {
+                context.getString(R.string.rating_not_rated)
+            } else {
+                context.getString(
+                    R.string.rating_value,
+                    calificacionUsuario.calificacion.toInt()
+                )
+            }
+
+        // Calcular el promedio de todos los usuarios.
+        val calificacionesRecurso = calificaciones.filter {
+            it.recursoId == recurso.id
+        }
+
+        if (calificacionesRecurso.isEmpty()) {
+            holder.promedioCalificacion.text =
+                context.getString(R.string.rating_no_votes)
+        } else {
+            val promedio = calificacionesRecurso
+                .map { it.calificacion }
+                .average()
+                .toFloat()
+
+            holder.promedioCalificacion.text = context.getString(
+                R.string.rating_average,
+                promedio,
+                calificacionesRecurso.size
+            )
+        }
+
         holder.calificacion.onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { _, rating, fromUser ->
 
-                if (fromUser) {
-                    preferencias.guardarCalificacion(
-                        recurso.id,
-                        rating
-                    )
-
-                    actualizarTextoCalificacion(
-                        holder,
-                        rating
-                    )
-
-                    Toast.makeText(
-                        context,
-                        R.string.rating_saved_message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (fromUser && rating > 0f) {
+                    alCalificar(recurso, rating)
                 }
             }
 
-        // Abrir enlace del recurso.
         holder.enlace.setOnClickListener {
-
             if (recurso.enlace.isBlank()) {
                 Toast.makeText(
                     context,
                     R.string.resource_link_missing,
                     Toast.LENGTH_SHORT
                 ).show()
-
             } else {
                 try {
                     val intent = Intent(
@@ -190,17 +207,13 @@ class RecursoAdapter(
         val esFavorito = preferencias.esFavorito(recursoId)
 
         if (esFavorito) {
-            holder.favorito.setText(
-                R.string.favorite_remove
-            )
+            holder.favorito.setText(R.string.favorite_remove)
 
             holder.favorito.setIconResource(
                 android.R.drawable.btn_star_big_on
             )
         } else {
-            holder.favorito.setText(
-                R.string.favorite_add
-            )
+            holder.favorito.setText(R.string.favorite_add)
 
             holder.favorito.setIconResource(
                 android.R.drawable.btn_star_big_off
@@ -208,29 +221,17 @@ class RecursoAdapter(
         }
     }
 
-    private fun actualizarTextoCalificacion(
-        holder: RecursoViewHolder,
-        calificacion: Float
-    ) {
-        holder.textoCalificacion.text =
-            if (calificacion == 0f) {
-                holder.itemView.context.getString(
-                    R.string.rating_not_rated
-                )
-            } else {
-                holder.itemView.context.getString(
-                    R.string.rating_value,
-                    calificacion.toInt()
-                )
-            }
-    }
-
-    override fun getItemCount(): Int {
-        return recursos.size
-    }
+    override fun getItemCount(): Int = recursos.size
 
     fun actualizarRecursos(nuevaLista: List<Recurso>) {
         recursos = nuevaLista
+        notifyDataSetChanged()
+    }
+
+    fun actualizarCalificaciones(
+        nuevasCalificaciones: List<Calificacion>
+    ) {
+        calificaciones = nuevasCalificaciones
         notifyDataSetChanged()
     }
 }
