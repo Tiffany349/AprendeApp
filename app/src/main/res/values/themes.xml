@@ -1,9 +1,51 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AprendeApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+
+    <style name="Base.Theme.AprendeApp"
+        parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Color principal: vino -->
+        <item name="colorPrimary">@color/wine</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/wine_container</item>
+        <item name="colorOnPrimaryContainer">#3B0015</item>
+
+        <!-- Color secundario: morado -->
+        <item name="colorSecondary">@color/purple</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/purple_container</item>
+        <item name="colorOnSecondaryContainer">#251A30</item>
+
+        <!-- Color terciario: turquesa -->
+        <item name="colorTertiary">@color/teal</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/teal_container</item>
+        <item name="colorOnTertiaryContainer">#002020</item>
+
+        <!-- Fondos y superficies -->
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorOnSurface">@color/light_on_surface</item>
+        <item name="colorSurfaceVariant">@color/light_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/light_on_surface_variant</item>
+
+        <!-- Bordes y controles -->
+        <item name="colorOutline">@color/light_outline</item>
+        <item name="colorControlNormal">@color/light_outline</item>
+        <item name="colorControlActivated">@color/wine</item>
+        <item name="colorAccent">@color/wine</item>
+
+        <!-- Errores -->
+        <item name="colorError">#BA1A1A</item>
+        <item name="colorOnError">@color/white</item>
+
+        <!-- Apariencia de ventanas -->
+        <item name="android:colorBackground">@color/light_background</item>
+        <item name="android:windowBackground">@color/light_background</item>
+        <item name="android:statusBarColor">@color/light_background</item>
+        <item name="android:navigationBarColor">@color/light_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+
     </style>
 
     <style name="Theme.AprendeApp" parent="Base.Theme.AprendeApp" />
+
 </resources>

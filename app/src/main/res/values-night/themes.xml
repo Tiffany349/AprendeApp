@@ -1,7 +1,49 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AprendeApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+
+    <style name="Base.Theme.AprendeApp"
+        parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Color principal: vino claro -->
+        <item name="colorPrimary">#FFB1C9</item>
+        <item name="colorOnPrimary">#5E0022</item>
+        <item name="colorPrimaryContainer">@color/dark_wine_container</item>
+        <item name="colorOnPrimaryContainer">#FFD9E4</item>
+
+        <!-- Color secundario: morado claro -->
+        <item name="colorSecondary">#D6C2E2</item>
+        <item name="colorOnSecondary">#392B46</item>
+        <item name="colorSecondaryContainer">@color/dark_purple_container</item>
+        <item name="colorOnSecondaryContainer">#F0DDFB</item>
+
+        <!-- Color terciario: turquesa claro -->
+        <item name="colorTertiary">#6ED9D4</item>
+        <item name="colorOnTertiary">#003738</item>
+        <item name="colorTertiaryContainer">@color/dark_teal_container</item>
+        <item name="colorOnTertiaryContainer">#BDF4F0</item>
+
+        <!-- Fondos y superficies -->
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnSurface">@color/dark_on_surface</item>
+        <item name="colorSurfaceVariant">@color/dark_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/dark_on_surface_variant</item>
+
+        <!-- Bordes y controles -->
+        <item name="colorOutline">@color/dark_outline</item>
+        <item name="colorControlNormal">@color/dark_outline</item>
+        <item name="colorControlActivated">#FFB1C9</item>
+        <item name="colorAccent">#FFB1C9</item>
+
+        <!-- Errores -->
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+
+        <!-- Apariencia de ventanas -->
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:statusBarColor">@color/dark_background</item>
+        <item name="android:navigationBarColor">@color/dark_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+
     </style>
+
 </resources>

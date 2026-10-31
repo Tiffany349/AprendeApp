@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta principal de AprendeApp -->
+    <color name="wine">#930031</color>
+    <color name="purple">#6C5B7B</color>
+    <color name="teal">#0D7377</color>
+    <color name="blue">#3282B8</color>
+    <color name="green">#4A943E</color>
+
+    <!-- Colores generales -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Tema claro -->
+    <color name="light_background">#FFFBFC</color>
+    <color name="light_surface">#FFFBFC</color>
+    <color name="light_surface_variant">#F2E8ED</color>
+    <color name="light_on_surface">#21191D</color>
+    <color name="light_on_surface_variant">#51434A</color>
+    <color name="light_outline">#82747B</color>
+
+    <!-- Contenedores del tema claro -->
+    <color name="wine_container">#F8DCE5</color>
+    <color name="purple_container">#EEE5F4</color>
+    <color name="teal_container">#D2F1EF</color>
+
+    <!-- Tema oscuro -->
+    <color name="dark_background">#171216</color>
+    <color name="dark_surface">#21191F</color>
+    <color name="dark_surface_variant">#51434A</color>
+    <color name="dark_on_surface">#F2E8ED</color>
+    <color name="dark_on_surface_variant">#D7C2CB</color>
+    <color name="dark_outline">#A08C96</color>
+
+    <!-- Colores de contenedores oscuros -->
+    <color name="dark_wine_container">#7D0031</color>
+    <color name="dark_purple_container">#51415F</color>
+    <color name="dark_teal_container">#005153</color>
+
 </resources>

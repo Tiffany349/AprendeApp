@@ -6,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="16dp"
     app:cardElevation="3dp"
+    app:strokeColor="?attr/colorOutline"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -16,58 +18,90 @@
         android:orientation="vertical"
         android:padding="12dp">
 
+        <!-- Imagen del recurso -->
         <ImageView
             android:id="@+id/ivImagen"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
+            android:background="?attr/colorSurfaceVariant"
             android:contentDescription="@string/resource_image_description"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_menu_gallery" />
 
+        <!-- Título -->
         <TextView
             android:id="@+id/tvTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:textColor="?attr/colorOnSurface"
             android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
+        <!-- Tipo de recurso -->
         <TextView
             android:id="@+id/tvTipo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="14sp" />
+            android:layout_marginTop="8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="?attr/colorTertiaryContainer"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
+        <!-- Descripción -->
         <TextView
             android:id="@+id/tvDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="14sp" />
+            android:layout_marginTop="9dp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="14sp"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
 
+        <!-- Botón de favoritos -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFavorito"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:minHeight="48dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:minHeight="44dp"
             android:text="@string/favorite_add"
             android:textAllCaps="false"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="13sp"
             app:icon="@android:drawable/btn_star_big_off"
             app:iconGravity="textStart"
-            app:iconTint="?attr/colorPrimary" />
+            app:iconTint="?attr/colorSecondary"
+            app:cornerRadius="10dp" />
 
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/colorOutline" />
+
+        <!-- Etiqueta de calificación -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="@string/rating_label"
+            android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
+        <!-- Calificación del usuario -->
         <RatingBar
             android:id="@+id/rbCalificacion"
             style="?android:attr/ratingBarStyle"
@@ -85,25 +119,35 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/rating_not_rated"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="12sp" />
 
-        <!-- Promedio compartido -->
+        <!-- Promedio general -->
         <TextView
             android:id="@+id/tvPromedioCalificacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/rating_no_votes"
+            android:textColor="?attr/colorTertiary"
             android:textStyle="bold"
             android:textSize="13sp" />
 
+        <!-- Abrir recurso -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnlace"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/open_resource" />
+            android:layout_height="46dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/open_resource"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:backgroundTint="?attr/colorPrimary"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_view"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorOnPrimary" />
 
     </LinearLayout>
 

@@ -1,59 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    app:strokeColor="?attr/colorOutline"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="14dp">
 
+        <!-- Título -->
         <TextView
             android:id="@+id/tvAdminTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="17sp"
             android:textStyle="bold"
-            android:textSize="18sp" />
+            android:maxLines="2"
+            android:ellipsize="end" />
 
+        <!-- Tipo -->
         <TextView
             android:id="@+id/tvAdminTipo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="7dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="?attr/colorTertiaryContainer"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
+        <!-- Descripción -->
         <TextView
             android:id="@+id/tvAdminDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="8dp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="13sp"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
 
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorOutline" />
+
+        <!-- Botones -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:gravity="center_vertical">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditarRecurso"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:text="@string/edit_resource" />
+                android:minHeight="44dp"
+                android:text="@string/edit_resource"
+                android:textAllCaps="false"
+                android:textSize="13sp"
+                android:textColor="?attr/colorSecondary"
+                app:cornerRadius="10dp"
+                app:strokeColor="?attr/colorSecondary"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconTint="?attr/colorSecondary"
+                app:iconGravity="textStart" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEliminarRecurso"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:minHeight="44dp"
                 android:text="@string/delete_resource"
-                app:backgroundTint="?attr/colorError" />
+                android:textAllCaps="false"
+                android:textSize="13sp"
+                android:textColor="?attr/colorOnError"
+                app:backgroundTint="?attr/colorError"
+                app:cornerRadius="10dp"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="?attr/colorOnError"
+                app:iconGravity="textStart" />
 
         </LinearLayout>
 
